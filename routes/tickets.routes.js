@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const Ticket = require('../models/Tickets.models')
 
 // Post Route that creates a new ticket
-router.post('/tickets', async (req,res) => {
+router.post('/tickets/create', async (req,res) => {
     const {project, image, userName, description, contact} = req.body;
     try {
         let response = await Ticket.create({project, image, userName, description, contact})
@@ -27,7 +27,7 @@ router.get('/tickets', async(req,res) => {
     }
 })
 
-// Get Route that gets info of a specific ticekt
+// Get Route that gets info of a specific ticket
 router.get('/tickets/:ticketId', async (req,res) => {
     const {ticketId} = req.params;
     try {
@@ -39,7 +39,7 @@ router.get('/tickets/:ticketId', async (req,res) => {
 })
 
 // Put Route to update ticekts info
-router.put('/tickets/:ticketId', async(req,res) => {
+router.put('/tickets/:ticketId/update', async(req,res) => {
     const {ticketId} = req.params;
     const {project, image, userName, description, contact} = req.body;
 
@@ -52,7 +52,7 @@ router.put('/tickets/:ticketId', async(req,res) => {
 })
 
 // Delete Route to delete a ticket
-router.delete('/tickets/:ticketId', async(req,res) => {
+router.delete('/tickets/:ticketId/delete', async(req,res) => {
     const {ticketId} = req.params;
     try {
 
