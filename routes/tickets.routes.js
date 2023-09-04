@@ -72,6 +72,8 @@ router.put("/tickets/:ticketId/update", async (req, res) => {
 router.delete("/tickets/:ticketId/delete", async (req, res) => {
   const { ticketId } = req.params;
   try {
+    await Ticket.findByIdAndDelete(ticketId);
+    res.json("Ticket deleted successfully")
   } catch (error) {
     res.render(json);
   }
