@@ -4,7 +4,8 @@ const { Schema, model } = require("mongoose");
 const projectsSchema = new Schema ({
     image: String,
     name: String,
-    link: String
+    link: String,
+    description: String
 });
 
 // Export the Model
