@@ -5,7 +5,8 @@ const projectsSchema = new Schema ({
     image: String,
     name: String,
     link: String,
-    description: String
+    description: String,
+    userName: [{ type: Schema.Types.ObjectId, ref:'User' }]
 });
 
 // Export the Model

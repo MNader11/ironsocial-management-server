@@ -1,26 +1,33 @@
 const router = require('express').Router();
 
 const mongoose = require('mongoose');
-
-const Projects = require('../models/Projects.model');
+const { isAuthenticated } = require('../middleware/jwt.middleware');
+// Require Data Models
+const Project = require('../models/Projects.model');
+const User = require('../models/User.model');
 
 // POST ROUTE that Creates a new Project
-router.post('/projects/create', async (req,res) => {
-    const {image, name, link} = req.body;
-    console.log(req.body)
-    
+router.post('/projects/create', isAuthenticated, async (req,res) => {
+    const user = req.payload;
+    const {image, name, link, description} = req.body;
     try{
-        let response =await Projects.create({image, name, link})
-        res.json(response);
-    }catch (error){
+      let newProject = await Project.create({image, name, link, description})
+      await Project.findByIdAndUpdate(newProject._id, {
+        $push:  {userName: user._id},
+      });
+      await User.findByIdAndUpdate(user._id, {
+        $push: { userProjects: newProject._id},
+      });
+    res.json(newProject);
+    } catch (error) {
         res.json(error)
     }
-})
+});
 
 // GET ROUTE that gets all the projects
 router.get('/projects', async(req,res) => {
     try{
-        let allProjects = await Projects.find()
+        let allProjects = await Project.find()
         console.log(allProjects)
         res.json(allProjects)
     }
@@ -29,13 +36,25 @@ router.get('/projects', async(req,res) => {
     } 
 })
 
+// Get Route that gets info of a specific ticket
+router.get("/projects/:projectId", async (req, res) => {
+    const { projectId } = req.params;
+    try {
+      let foundProject = await Project.findById(projectId);
+      res.json(foundProject);
+    } catch (error) {
+      res.json(error);
+    }
+  });
+
+  // Put Route to update ticekts info
 router.put('/projects/:projectId/update', async(req,res) =>
 {
     const {projectId} = req.params;
-    const {image, name, link} = req.body;
+    const {image, name, link, description} = req.body;
 
     try{
-       let updateProjects = await Projects.findByIdAndUpdate(projectId, {image, name, link}, {new:true});
+       let updateProjects = await Project.findByIdAndUpdate(projectId, {image, name, link}, {new:true});
        res,json(updateProjects);
     }
     catch(error){
@@ -47,7 +66,7 @@ router.delete('/projects/:projectId/delete', async(req,res) =>{
     const {projectId} = req.params;
 
     try{
-        await Projects.findByIdAndDelete(projectId)
+        await Project.findByIdAndDelete(projectId)
         res.json({message: 'Project Delete'})
     }
     catch (error) {

@@ -18,7 +18,8 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Name is required."],
     },
-    userTickets: [{ type: Schema.Types.ObjectId, ref:'Ticket' }]
+    userTickets: [{ type: Schema.Types.ObjectId, ref:'Ticket' }],
+    userProjects: [{ type: Schema.Types.ObjectId, ref:'Project' }]
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
