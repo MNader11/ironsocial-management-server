@@ -40,7 +40,7 @@ router.get("/tickets", async (req, res) => {
   }
 });
 
-// Get Route that gets all the tickets
+// Get Route that gets all the tickets of each user
 router.get("/myTickets", isAuthenticated, async (req, res) => {
   const user = req.payload;
   try {
@@ -61,9 +61,6 @@ router.get("/tickets/:ticketId", async (req, res) => {
     res.json(error);
   }
 });
-
-
-
 
 // Put Route to update ticekts info
 router.put("/tickets/:ticketId/update", async (req, res) => {

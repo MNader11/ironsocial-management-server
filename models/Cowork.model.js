@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const coworkSchema = new Schema ({
+const CoworkSchema = new Schema ({
     image: String,
     name: String,
     location: String,
@@ -8,6 +8,6 @@ const coworkSchema = new Schema ({
     link: String
 })
 
-const Cowork = model('Cowork', coworkSchema);
+const Cowork = model('Cowork', CoworkSchema);
 
 module.exports = Cowork;

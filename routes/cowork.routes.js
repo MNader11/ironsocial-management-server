@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const mongoose = require('mongoose');
 
-const Cowork = require('../models/cowork.model');
+const Cowork = require('../models/Cowork.model');
 
 // Get Route that gets all coworks
 router.get('/coworks', async(req,res) => {
