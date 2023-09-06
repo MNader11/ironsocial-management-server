@@ -19,7 +19,9 @@ const userSchema = new Schema(
       required: [true, "Name is required."],
     },
     userTickets: [{ type: Schema.Types.ObjectId, ref:'Ticket' }],
-    userProjects: [{ type: Schema.Types.ObjectId, ref:'Project' }]
+    userProjects: [{ type: Schema.Types.ObjectId, ref:'Project' }],
+    favorites: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
+    comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

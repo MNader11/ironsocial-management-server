@@ -40,6 +40,17 @@ router.get("/tickets", async (req, res) => {
   }
 });
 
+// Get Route that gets all the tickets
+router.get("/myTickets", isAuthenticated, async (req, res) => {
+  const user = req.payload;
+  try {
+    const userWithTickets = await User.findById(user._id).populate("userTickets");
+    res.json(userWithTickets);
+  } catch (error) {
+    res.json(error);
+  }
+});
+
 // Get Route that gets info of a specific ticket
 router.get("/tickets/:ticketId", async (req, res) => {
   const { ticketId } = req.params;
@@ -50,6 +61,9 @@ router.get("/tickets/:ticketId", async (req, res) => {
     res.json(error);
   }
 });
+
+
+
 
 // Put Route to update ticekts info
 router.put("/tickets/:ticketId/update", async (req, res) => {
