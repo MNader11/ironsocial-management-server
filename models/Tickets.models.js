@@ -5,7 +5,8 @@ const ticketSchema = new Schema({
     image: String,
     description: String,
     contact: String,
-    userName: [{ type: Schema.Types.ObjectId, ref:'User' }]
+    userName: [{ type: Schema.Types.ObjectId, ref:'User' }],
+    userComments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
 });
 
 const Ticket = model('Ticket', ticketSchema);

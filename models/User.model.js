@@ -20,8 +20,8 @@ const userSchema = new Schema(
     },
     userTickets: [{ type: Schema.Types.ObjectId, ref:'Ticket' }],
     userProjects: [{ type: Schema.Types.ObjectId, ref:'Projects' }],
-    favorites: [{ type: Schema.Types.ObjectId, ref: 'Favorite' }],
-    comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
+    userFavorites: [{ type: Schema.Types.ObjectId, ref: 'Favorite' }],
+    userComments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

@@ -69,10 +69,10 @@ router.get("/profile", isAuthenticated, async (req, res) => {
   router.get("/user/comments", isAuthenticated, async (req, res) => {
     const currentUser = req.payload;
     try {
-      await User.findById(currentUser._id).populate(
-        "comments"
+       let filledUser = await User.findById(currentUser._id).populate(
+        "userComments"
       );
-      res.json("user/comments", { currentUser });
+      res.json(filledUser);
     } catch (error) {
       console.log("Error Comments: ", error);
     }
@@ -92,10 +92,10 @@ router.get("/profile", isAuthenticated, async (req, res) => {
         $push: { projectRelated: ticketId },
       });
       await User.findByIdAndUpdate(currentUser._id, {
-        $push: { comments: newComment._id },
+        $push: { userComments: newComment._id },
       });
       await Ticket.findByIdAndUpdate(ticketId, {
-        $push: { comments: newComment._id },
+        $push: { userComments: newComment._id },
       });
       res.json(`/tickets/${ticketId}`);
     } catch (error) {
@@ -113,10 +113,10 @@ router.get("/profile", isAuthenticated, async (req, res) => {
       try {
         await Comment.findByIdAndRemove(commentId);
         await User.findByIdAndUpdate(currentUser._id, {
-          $pull: { comments: commentId },
+          $pull: { userComments: commentId },
         });
         await Ticket.findByIdAndUpdate(ticketId, {
-          $pull: { comments: commentId },
+          $pull: { userComments: commentId },
         });
         res.json(`/tickets/${ticketId}`);
       } catch (error) {
