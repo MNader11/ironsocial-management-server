@@ -37,7 +37,7 @@ router.get('/projects', async(req,res) => {
 })
 
 // Get Route that gets all the projects of each user
-router.get("/myProjects", isAuthenticated, async (req, res) => {
+router.get("/myTickets", isAuthenticated, async (req, res) => {
   const user = req.payload;
   try {
     const userWithProjects = await User.findById(user._id).populate("userProjects");
