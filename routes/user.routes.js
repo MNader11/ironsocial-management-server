@@ -4,13 +4,12 @@ const router = require("express").Router();
 const mongoose = require("mongoose");
 const {isAuthenticated} = require("../middleware/jwt.middleware")
 
+const fileuploader = require('../config/cloudinary.config')
+
 const Project = require("../models/Projects.model");
 const Ticket = require('../models/Tickets.models')
 const User = require("../models/User.model");
-const Comment = require("../models/Comment.model");
-
-// Require Data Models
-const User = require('../models/User.model');
+const Comment = require("../models/Comments.model");
 
 // Get Route that gets user profile
 router.get("/profile", isAuthenticated, async (req, res) => {
@@ -38,12 +37,12 @@ router.get("/profile", isAuthenticated, async (req, res) => {
   });
   
   // Update
-  router.post("/user/favorites/add/:ticketId", isAuthenticated, async (req, res) => {
+  router.post("/user/favorites/add/:projectId", isAuthenticated, async (req, res) => {
     const currentUser = req.payload;
     try {
-      const { ticketId } = req.params;
+      const { projectId } = req.params;
       await User.findByIdAndUpdate(currentUser._id, {
-        $push: { favorites: ticketId },
+        $push: { favorites: projectId },
       });
       res.json("/user/favorites");
     } catch (error) {
@@ -52,12 +51,12 @@ router.get("/profile", isAuthenticated, async (req, res) => {
   });
   
   // Delete
-  router.post("/user/favorites/remove/:ticketId", isAuthenticated, async (req, res) => {
+  router.post("/user/favorites/remove/:projectId", isAuthenticated, async (req, res) => {
     const currentUser = req.payload;
     try {
-      const { ticketId } = req.params;
+      const { projectId } = req.params;
       await User.findByIdAndUpdate(currentUser._id, {
-        $pull: { favorites: ticketId },
+        $pull: { favorites: projectId },
       });
       res.json(`/user/favorites`);
     } catch (error) {
@@ -95,10 +94,10 @@ router.get("/profile", isAuthenticated, async (req, res) => {
       await User.findByIdAndUpdate(currentUser._id, {
         $push: { comments: newComment._id },
       });
-      await Project.findByIdAndUpdate(ticketId, {
+      await Ticket.findByIdAndUpdate(ticketId, {
         $push: { comments: newComment._id },
       });
-      res.json(`/projects/${ticketId}`);
+      res.json(`/tickets/${ticketId}`);
     } catch (error) {
       console.log("Error Setting Comment: ", error);
     }
@@ -116,15 +115,24 @@ router.get("/profile", isAuthenticated, async (req, res) => {
         await User.findByIdAndUpdate(currentUser._id, {
           $pull: { comments: commentId },
         });
-        await Project.findByIdAndUpdate(ticketId, {
+        await Ticket.findByIdAndUpdate(ticketId, {
           $pull: { comments: commentId },
         });
-        res.redirect(`/projects/${ticketId}`);
+        res.json(`/tickets/${ticketId}`);
       } catch (error) {
         console.log("Error Deleting Comment: ", error);
       }
     }
   );
+
+/*   //Cloudinary
+  router.post('/upload', fileuploader.single('img', (req, res, next) => {
+    if(!req.file) {
+      res.json({fileUrl: ""});
+      return;
+    }
+    res.json({fileUrl: req.file.path})
+  })); */
 
 module.exports = router;
 

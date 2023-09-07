@@ -20,7 +20,7 @@ const userSchema = new Schema(
     },
     userTickets: [{ type: Schema.Types.ObjectId, ref:'Ticket' }],
     userProjects: [{ type: Schema.Types.ObjectId, ref:'Project' }],
-    favorites: [{ type: Schema.Types.ObjectId, ref: 'Project' }],
+    favorites: [{ type: Schema.Types.ObjectId, ref: 'Favorite' }],
     comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
   },
   {

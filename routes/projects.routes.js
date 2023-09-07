@@ -45,7 +45,7 @@ router.get("/myProjects", isAuthenticated, async (req, res) => {
   } catch (error) {
     res.json(error);
   }
-});
+}); 
 
 // Get Route that gets info of a specific ticket
 router.get("/projects/:projectId", async (req, res) => {
