@@ -3,7 +3,7 @@ const router = require('express').Router();
 const mongoose = require('mongoose');
 const { isAuthenticated } = require('../middleware/jwt.middleware');
 // Require Data Models
-const Project = require('../models/Projects.model');
+const Projects = require('../models/Projects.model');
 const User = require('../models/User.model');
 
 // POST ROUTE that Creates a new Project
@@ -11,8 +11,8 @@ router.post('/projects/create', isAuthenticated, async (req,res) => {
     const user = req.payload;
     const {image, name, link, description} = req.body;
     try{
-      let newProject = await Project.create({image, name, link, description})
-      await Project.findByIdAndUpdate(newProject._id, {
+      let newProject = await Projects.create({image, name, link, description})
+      await Projects.findByIdAndUpdate(newProject._id, {
         $push:  {userName: user._id},
       });
       await User.findByIdAndUpdate(user._id, {
@@ -27,7 +27,7 @@ router.post('/projects/create', isAuthenticated, async (req,res) => {
 // GET ROUTE that gets all the projects
 router.get('/projects', async(req,res) => {
     try{
-        let allProjects = await Project.find()
+        let allProjects = await Projects.find()
         console.log(allProjects)
         res.json(allProjects)
     }
@@ -51,7 +51,7 @@ router.get("/myProjects", isAuthenticated, async (req, res) => {
 router.get("/projects/:projectId", async (req, res) => {
     const { projectId } = req.params;
     try {
-      let foundProject = await Project.findById(projectId);
+      let foundProject = await Projects.findById(projectId);
       res.json(foundProject);
     } catch (error) {
       res.json(error);
@@ -65,7 +65,7 @@ router.put('/projects/:projectId/update', async(req,res) =>
     const {image, name, link, description} = req.body;
 
     try{
-       let updateProjects = await Project.findByIdAndUpdate(projectId, {image, name, link}, {new:true});
+       let updateProjects = await Projects.findByIdAndUpdate(projectId, {image, name, link}, {new:true});
        res,json(updateProjects);
     }
     catch(error){
@@ -77,7 +77,7 @@ router.delete('/projects/:projectId/delete', async(req,res) =>{
     const {projectId} = req.params;
 
     try{
-        await Project.findByIdAndDelete(projectId)
+        await Projects.findByIdAndDelete(projectId)
         res.json({message: 'Project Delete'})
     }
     catch (error) {

@@ -7,7 +7,7 @@ const commentSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    userProjects: [{ type: Schema.Types.ObjectId, ref:'Project' }]
+    userProjects: [{ type: Schema.Types.ObjectId, ref:'Projects' }]
   },
   {
     timestamps: true,

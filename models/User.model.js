@@ -19,7 +19,7 @@ const userSchema = new Schema(
       required: [true, "Name is required."],
     },
     userTickets: [{ type: Schema.Types.ObjectId, ref:'Ticket' }],
-    userProjects: [{ type: Schema.Types.ObjectId, ref:'Project' }],
+    userProjects: [{ type: Schema.Types.ObjectId, ref:'Projects' }],
     favorites: [{ type: Schema.Types.ObjectId, ref: 'Favorite' }],
     comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
   },
