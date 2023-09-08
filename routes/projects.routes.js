@@ -66,7 +66,7 @@ router.put('/projects/:projectId/update', async(req,res) =>
 
     try{
        let updateProjects = await Projects.findByIdAndUpdate(projectId, {image, name, link}, {new:true});
-       res,json(updateProjects);
+       res.json(updateProjects);
     }
     catch(error){
         res.json(error);
