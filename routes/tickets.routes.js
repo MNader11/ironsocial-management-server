@@ -31,7 +31,7 @@ router.post("/tickets/create", isAuthenticated, async (req, res) => {
 });
 
 // Get Route that gets all the tickets
-router.get("/tickets", async (req, res) => {
+router.get("/tickets", isAuthenticated, async (req, res) => {
   try {
     let allTickets = await Ticket.find();
     res.json(allTickets);
@@ -45,6 +45,7 @@ router.get("/myTickets", isAuthenticated, async (req, res) => {
   const user = req.payload;
   try {
     const userWithTickets = await User.findById(user._id).populate("userTickets");
+    console.log(userWithTickets)
     res.json(userWithTickets);
   } catch (error) {
     res.json(error);
